@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FF14 Mechanism Helper</title>
+    <style>
+        .pushable {
+            position: relative; border: 3px solid black; border-radius: 12px; background: white;
+            cursor: pointer; font-weight: 900; transition: none !important; box-shadow: 0 6px 0 #000;
+            display: flex; justify-content: center; align-items: center; text-align: center;
+            -webkit-user-select: none; user-select: none; touch-action: manipulation;
+        }
+        .pushable:active { transform: translateY(4px); box-shadow: 0 2px 0 #000; }
+        .selected-btn { background: #fde047 !important; transform: translateY(4px); box-shadow: 0 2px 0 #000 !important; color: black !important; }
+        .nav-active { background: #000 !important; color: white !important; transform: translateY(4px); box-shadow: 0 2px 0 #000 !important; }
+        .btn-text-large { font-size: 26px; }
+        .header-info { padding: 12px; border-radius: 15px; border: 3px solid black; text-align: center; font-size: 18px; font-weight: 900; margin-bottom: 5px; }
+        .summary-box { background: white; padding: 15px; border-radius: 15px; border: 3px solid black; margin-bottom: 10px; }
+        .p7-row { border: 3px solid black; border-radius: 10px; padding: 15px; margin-bottom: 12px; font-weight: 900; font-size: 26px; text-align: center; }
+        .bg-blue { background: #e0f2fe; color: #0369a1; }
+        .bg-green { background: #f0fdf4; color: #15803d; }
+    </style>
+</head>
+<body style="margin: 0; background: #f0f2f5; display: flex; flex-direction: column; align-items: center; padding: 15px; font-family: -apple-system, sans-serif;">
+
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; margin-bottom: 20px; width: 100%; max-width: 550px;">
+        <button id="nav-ushiko" class="pushable nav-active" onclick="changeSet('ushiko')" style="flex: 1.5; padding: 8px 0; font-size: 10px; color: white !important;">牛子式</button>
+        <button id="nav0" class="pushable" onclick="changeSet(0)" style="flex: 1; padding: 8px 0; background: #444; color: white; font-size: 10px;">P1</button>
+        <button id="nav1" class="pushable" onclick="changeSet(1)" style="flex: 1; padding: 8px 0; background: #444; color: white; font-size: 10px;">P2</button>
+        <button id="nav2" class="pushable" onclick="changeSet(2)" style="flex: 1; padding: 8px 0; background: #444; color: white; font-size: 10px;">P3</button>
+        <button id="nav3" class="pushable" onclick="changeSet(3)" style="flex: 1; padding: 8px 0; background: #444; color: white; font-size: 10px;">P4</button>
+        <button id="nav4" class="pushable" onclick="changeSet(4)" style="flex: 1; padding: 8px 0; background: #444; color: white; font-size: 10px;">P5</button>
+        <button id="nav5" class="pushable" onclick="changeSet(5)" style="flex: 1; padding: 8px 0; background: #444; color: white; font-size: 10px;">P6</button>
+        <button id="nav6" class="pushable" onclick="changeSet(6)" style="flex: 1; padding: 8px 0; background: #444; color: white; font-size: 10px;">P7</button>
+        <button id="reset-btn" class="pushable" onclick="resetAll()" style="flex: 1.2; padding: 8px 0; border-color: #ef4444; color: #ef4444; font-size: 10px; background: white;">RESET</button>
+    </div>
+
+    <div id="set-ushiko" class="section" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 100%; max-width: 380px;">
+        <button class="pushable" data-action="ushiko" data-val="1" style="aspect-ratio: 1/1; color:#e11d48; font-size:40px;">1</button>
+        <button class="pushable" data-action="ushiko" data-val="A" style="aspect-ratio: 1/1; color:#e11d48; font-size:40px;">A</button>
+        <button class="pushable" data-action="ushiko" data-val="2" style="aspect-ratio: 1/1; color:#b45309; font-size:40px;">2</button>
+        <button class="pushable" data-action="ushiko" data-val="D" style="aspect-ratio: 1/1; color:#7e22ce; font-size:40px;">D</button>
+        <div style="display:flex; justify-content:center; align-items:center; font-size:16px; font-weight:900;">牛子</div>
+        <button class="pushable" data-action="ushiko" data-val="B" style="aspect-ratio: 1/1; color:#b45309; font-size:40px;">B</button>
+        <button class="pushable" data-action="ushiko" data-val="4" style="aspect-ratio: 1/1; color:#7e22ce; font-size:40px;">4</button>
+        <button class="pushable" data-action="ushiko" data-val="C" style="aspect-ratio: 1/1; color:#1d4ed8; font-size:40px;">C</button>
+        <button class="pushable" data-action="ushiko" data-val="3" style="aspect-ratio: 1/1; color:#1d4ed8; font-size:40px;">3</button>
+    </div>
+
+    <div id="set0" class="section" style="display: none; flex-direction: column; gap: 15px; width: 100%; max-width: 380px;">
+        <div class="summary-box" style="text-align: center;">
+            <p style="margin-bottom: 15px; font-weight: 900; font-size: 20px;">玩家分身定位</p>
+            <div style="display: flex; gap: 15px;">
+                <button class="pushable btn-text-large" data-action="p0" data-val="十字" style="flex: 1; padding: 25px 0; color: black;">十字</button>
+                <button class="pushable btn-text-large" data-action="p0" data-val="X字" style="flex: 1; padding: 25px 0; color: black;">X字</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="set1" class="section" style="display: none; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 100%; max-width: 380px;">
+        <button class="pushable" data-action="p1" data-val="1" style="aspect-ratio: 1/1; color:#e11d48; font-size:40px;">1</button>
+        <button class="pushable" data-action="p1" data-val="A" style="aspect-ratio: 1/1; color:#e11d48; font-size:40px;">A</button>
+        <button class="pushable" data-action="p1" data-val="2" style="aspect-ratio: 1/1; color:#b45309; font-size:40px;">2</button>
+        <button class="pushable" data-action="p1" data-val="D" style="aspect-ratio: 1/1; color:#7e22ce; font-size:40px;">D</button>
+        <div style="display:flex; justify-content:center; align-items:center; font-size:16px; font-weight:900;">方位</div>
+        <button class="pushable" data-action="p1" data-val="B" style="aspect-ratio: 1/1; color:#b45309; font-size:40px;">B</button>
+        <button class="pushable" data-action="p1" data-val="4" style="aspect-ratio: 1/1; color:#7e22ce; font-size:40px;">4</button>
+        <button class="pushable" data-action="p1" data-val="C" style="aspect-ratio: 1/1; color:#1d4ed8; font-size:40px;">C</button>
+        <button class="pushable" data-action="p1" data-val="3" style="aspect-ratio: 1/1; color:#1d4ed8; font-size:40px;">3</button>
+    </div>
+
+    <div id="set2" class="section" style="display: none; flex-direction: column; gap: 10px; width: 100%; max-width: 380px;">
+        <div class="summary-box" style="text-align: center;"><p style="font-weight:900; font-size: 20px; margin-bottom: 20px;">A點扇形方向</p><div style="display: flex; gap: 15px;"><button class="pushable btn-text-large" data-action="p2" data-val="上下扇" style="flex:1; padding: 25px 0;">上下扇</button><button class="pushable btn-text-large" data-action="p2" data-val="左右扇" style="flex:1; padding: 25px 0;">左右扇</button></div></div>
+    </div>
+
+    <div id="set3" class="section" style="display: none; flex-direction: column; gap: 15px; width: 100%; max-width: 380px;">
+        <div id="p1-res-p3" class="header-info" style="background: #fee2e2; border-color: #b91c1c; color: #b91c1c; text-align: left; font-size: 16px;"></div>
+        <div class="summary-box" style="text-align: center;"><h2 style="margin: 0 0 10px 0; font-size: 28px; font-weight: 900;">A點機制</h2><div style="display: flex; gap: 15px;"><button class="pushable btn-text-large" data-action="p3" data-val="頭割り" style="flex:1; padding: 20px 0;">頭割り</button><button class="pushable btn-text-large" data-action="p3" data-val="円範圍" style="flex:1; padding: 20px 0;">円範圍</button></div></div>
+    </div>
+
+    <div id="set4" class="section" style="display: none; flex-direction: column; gap: 15px; width: 100%; max-width: 380px;">
+        <div id="p3-hint-p4" class="header-info" style="background: #e0f2fe; border-color: #0369a1; color: #0369a1;"></div>
+        <div class="summary-box"><p style="margin: 0 0 15px 0; font-weight: 900; font-size: 24px; text-align: center;">最後處理の塔</p><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;"><button class="pushable btn-text-large" data-action="p4" data-val="火" style="padding: 25px 0; background: #ef4444; color: white;">火</button><button class="pushable btn-text-large" data-action="p4" data-val="綠" style="padding: 25px 0; background: #22c55e; color: white;">綠</button><button class="pushable btn-text-large" data-action="p4" data-val="紫" style="padding: 25px 0; background: #a855f7; color: white;">紫</button><button class="pushable btn-text-large" data-action="p4" data-val="黃" style="padding: 25px 0; background: #eab308; color: black;">黃</button></div></div>
+    </div>
+
+    <div id="set5" class="section" style="display: none; flex-direction: column; gap: 10px; width: 100%; max-width: 380px;">
+        <div id="res-p3-p5" class="header-info" style="background: #e0f2fe; border-color: #0369a1; color: #0369a1; font-size: 22px;"></div>
+        <div id="res-p1-p5" class="header-info" style="background: #fee2e2; border-color: #b91c1c; color: #b91c1c; text-align: left; font-size: 14px;"></div>
+        <div id="res-p4-p5" style="background: #000; color: #fff; padding: 15px; border-radius: 15px; border: 3px solid black; text-align: center; font-weight: 900; font-size: 18px;"></div>
+        <div class="summary-box" style="text-align: center;"><p style="margin: 0 0 10px 0; font-weight: 900; font-size: 20px;">裂目</p><div style="display: flex; gap: 15px;"><button class="pushable btn-text-large" data-action="p5crack" data-val="上" style="flex: 1; padding: 15px 0;">上</button><button class="pushable btn-text-large" data-action="p5crack" data-val="下" style="flex: 1; padding: 15px 0;">下</button></div></div>
+        <div class="summary-box" style="text-align: center;"><p style="margin: 0 0 10px 0; font-weight: 900; font-size: 20px;">上or下跑到</p><div style="display: flex; gap: 15px;"><button class="pushable btn-text-large" data-action="p5move" data-val="D" style="flex: 1; padding: 15px 0;">D</button><button class="pushable btn-text-large" data-action="p5move" data-val="B" style="flex: 1; padding: 15px 0;">B</button></div></div>
+    </div>
+
+    <div id="set6" class="section" style="display: none; flex-direction: column; width: 100%; max-width: 380px;">
+        <div id="p7-row1" class="p7-row bg-blue"></div>
+        <div id="p7-row2" class="p7-row bg-green"></div>
+        <div id="p7-row3" class="p7-row bg-blue"></div>
+        <div id="p7-row4" class="p7-row bg-green"></div>
+    </div>
+
+    <div id="guide-box" style="margin-top: 15px; width: 100%; max-width: 380px; min-height: 85px; border: 4px solid black; border-radius: 15px; padding: 15px; background: white; box-sizing: border-box; transition: transform 0.2s ease;">
+        <p id="guide-content" style="color: #000; text-align: center; font-weight: 900; margin: 0; font-size: 18px;">等待輸入...</p>
+    </div>
+
+    <script>
+        let state = { ushiko: '', p0: '', p1: '', p2: '', p3: '', p4: '', p5crack: '', p5move: '' };
+        let currentTab = 'ushiko';
+        const waitTime = 300;
+
+        const ushikoGuides = {
+            'A': 'B(2)から半時計扇線<br>Bで外周みて左外側で扇誘導<br>北にずれて頭割り<br>半面避け<br>タゲサ外ちょい北でニアファー誘導<br>最初の形で扇誘導<br>ボス下で殴る',
+            'B': 'ボス線<br>Bにボス誘導<br>南にずれて頭割り<br>半面避け<br>タゲサとタゲサの間Bの内側で待機<br>2で頭割り<br>タゲサ外通って3で頭割り',
+            'C': 'Bから時計扇線<br>Bで外周みて右外側で扇誘導<br>南にずれて頭割り<br>半面避け<br>タゲサ外ちょい南でニアファー誘導<br>最初の形で扇誘導<br>ボス下で殴る',
+            'D': '無職<br>D端で円範圍誘導<br>ボス北で頭割り<br>半面避け<br>タゲサとタゲサの間Bの内側で待機<br>2で頭割り<br>タゲサ外通って3で頭割り',
+            '1': 'B(2)から反時計円範圍線<br>Aちょい西で円範圍誘導<br>ボス北で頭割り<br>半面避け<br>タゲサとタゲサの間Bの内側で待機<br>2で頭割り<br>タゲサ外通って3で頭割り',
+            '2': 'B(2)から反時計頭割り線<br>Bで外周みて左內側で扇誘導<br>北にずれて頭割り<br>半面避け<br>タゲサ內ちょい北でニアファー誘導<br>最初の形で扇誘導<br>ボス下で殴る',
+            '3': 'Bから時計頭割り線<br>Bで外周みて右內側で扇誘導<br>南にずれて頭割り<br>半面避け<br>タゲサ內ちょい南でニアファー誘導<br>最初の形で扇誘導<br>ボス下で殴る',
+            '4': 'Bから時計円範圍線<br>Cちょい西で円範圍誘導<br>ボス南で頭割り<br>半面避け<br>タゲサとタゲサの間Bの内側で待機<br>2で頭割り<br>タゲサ外通って3で頭割り'
+        };
+
+        const p1Guides = {
+            '1': '1 or D の 頭割り 線を取る<br>Ｂ側で頭割り', 'A': 'A or 2 の 頭割り 線を取る<br>B側で頭割り',
+            '2': 'A or 2 の 円範圍 線を取る<br>1回目 A側 円範圍 捨て<br>B側で頭割り', 'B': 'B or 3 の 円範圍 線を取る<br>2回目 A側 円範圍 捨て<br>B側で頭割り',
+            '3': 'C or 4 の 円範圍 線を取る<br>1回目 C側 円範圍 捨て<br>D側で頭割り', 'C': 'D or 1 の 円範圍 線を取る<br>2回目 C側 円範圍 捨て<br>D側で頭割り',
+            '4': 'B or 3 の 頭割り 線を取る<br>D側で頭割り', 'D': 'C or 4 の 頭割り 線を取る<br>D側で頭割り'
+        };
+
+        const colorGuides = { 
+            '火': '不動後處理遠線<br><span style="color:#ff4d4d">4號位</span>', 
+            '綠': '站塔邊緣飛過去後<br>處理遠線<br><span style="color:#2ecc71">場地北邊王圈交界</span>', 
+            '黃': '閃地板後處理遠線<br><span style="color:#f1c40f">4號位</span>', 
+            '紫': '面外射線後處理近線<br><span style="color:#9b59b6">王圈上</span>' 
+        };
+
+        document.querySelectorAll('.pushable[data-action]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const action = btn.getAttribute('data-action');
+                const val = btn.getAttribute('data-val');
+                state[action] = val;
+                updateUI();
+                autoJump(action);
+            });
+        });
+
+        function updateUI() {
+            document.querySelectorAll('.pushable[data-action]').forEach(btn => {
+                const action = btn.getAttribute('data-action');
+                const val = btn.getAttribute('data-val');
+                btn.classList.toggle('selected-btn', state[action] === val);
+            });
+
+            if(state.p1) document.getElementById('p1-res-p3').innerHTML = `<b>方位 ${state.p1}:</b><br>${p1Guides[state.p1]}`;
+            if(state.p2) {
+                let h = (state.p2 === '上下扇') ? "1、2安地 之後分島站位" : "3、4安地 之後分島站位";
+                document.getElementById('p3-hint-p4').innerHTML = `<b>${h}</b>`;
+            }
+            if(state.p3) document.getElementById('res-p3-p5').innerHTML = (state.p3 === '頭割り' ? "先頭割り" : "先円範圍");
+            if(state.p1) document.getElementById('res-p1-p5').innerHTML = `<b>方位 ${state.p1}:</b><br>${p1Guides[state.p1]}`;
+            if(state.p4) document.getElementById('res-p4-p5').innerHTML = `<span style="color: #60a5fa;">【${state.p4}】</span><br>${colorGuides[state.p4]}`;
+
+            if(state.p0 && state.p2 && state.p5crack && state.p5move) {
+                if(state.p0 === '十字') {
+                    document.getElementById('p7-row1').innerText = "A,D頭割り";
+                    document.getElementById('p7-row3').innerText = "1,4頭割り";
+                } else {
+                    document.getElementById('p7-row1').innerText = "1,4頭割り";
+                    document.getElementById('p7-row3').innerText = "A,D頭割り";
+                }
+                let A_safe = (state.p2 === '上下扇') ? '左右安地' : '上下安地';
+                let C_safe = (state.p2 === '上下扇') ? '上下安地' : '左右安地';
+                let row2Safe = (state.p5crack === '上') ? C_safe : A_safe;
+                let row4Safe = (state.p5crack === '上') ? A_safe : C_safe;
+                document.getElementById('p7-row2').innerText = `${state.p5move}${row2Safe}`;
+                document.getElementById('p7-row4').innerText = `${row4Safe}`;
+            }
+
+            const gc = document.getElementById('guide-content');
+            const gb = document.getElementById('guide-box');
+            
+            // 處理導引框縮放邏輯
+            if(currentTab === 'ushiko') {
+                gb.style.transform = "scale(0.9)";
+                gb.style.marginTop = "5px"; // 縮放後微調間距
+                gc.style.textAlign = "left";
+                gc.innerHTML = state.ushiko ? `牛子式 ${state.ushiko}：<br>${ushikoGuides[state.ushiko]}` : "請選擇牛子式位置";
+            } else {
+                gb.style.transform = "scale(1)";
+                gb.style.marginTop = "15px";
+                gc.style.textAlign = "center";
+                switch(currentTab) {
+                    case 0: gc.innerHTML = state.p0 ? `定位：${state.p0}` : "請選擇分身定位"; break;
+                    case 1: gc.innerHTML = state.p1 ? `方位 ${state.p1}：<br>${p1Guides[state.p1]}` : "請選擇方位"; gc.style.textAlign = "left"; break;
+                    case 2: gc.innerHTML = state.p2 ? `扇形方向：${state.p2}` : "請選擇扇形方向"; break;
+                    case 3: gc.innerHTML = state.p3 ? `機制：${state.p3}` : "請選擇A點機制"; break;
+                    case 4: gc.innerHTML = state.p4 ? `塔位：${state.p4}<br>${colorGuides[state.p4]}` : "請選擇最後塔色"; break;
+                    case 5: gc.innerHTML = `裂目：${state.p5crack || '未選'} / 跑到：${state.p5move || '未選'}`; break;
+                    case 6: gc.innerHTML = "P7 機制順序已生成"; break;
+                }
+            }
+        }
+
+        function autoJump(action) {
+            if(action === 'ushiko') return;
+            if(action === 'p0') setTimeout(() => changeSet(1), waitTime);
+            else if(action === 'p1') setTimeout(() => changeSet(2), waitTime);
+            else if(action === 'p2') setTimeout(() => changeSet(3), waitTime);
+            else if(action === 'p3') setTimeout(() => changeSet(4), waitTime);
+            else if(action === 'p4') setTimeout(() => changeSet(5), waitTime);
+            else if(action === 'p5move') setTimeout(() => changeSet(6), waitTime);
+        }
+
+        function changeSet(n) {
+            currentTab = n;
+            const sections = ['set-ushiko', 'set0', 'set1', 'set2', 'set3', 'set4', 'set5', 'set6'];
+            const navs = ['nav-ushiko', 'nav0', 'nav1', 'nav2', 'nav3', 'nav4', 'nav5', 'nav6'];
+            
+            sections.forEach((id, i) => {
+                const el = document.getElementById(id);
+                if(el) {
+                    if (n === 'ushiko') el.style.display = (id === 'set-ushiko') ? 'grid' : 'none';
+                    else el.style.display = (id === 'set'+n) ? (n===1?'grid':'flex') : 'none';
+                }
+            });
+
+            navs.forEach((id, i) => {
+                const navEl = document.getElementById(id);
+                if (navEl) {
+                    const isActive = (n === 'ushiko' && id === 'nav-ushiko') || (n !== 'ushiko' && id === 'nav'+n);
+                    navEl.classList.toggle('nav-active', isActive);
+                    navEl.style.background = isActive ? "#000" : "#444";
+                    if (id === 'nav0' || id === 'nav-ushiko') navEl.style.color = "white";
+                    else navEl.style.color = isActive ? "white" : "white";
+                }
+            });
+            document.getElementById('guide-box').style.display = (n === 6) ? 'none' : 'block';
+            updateUI();
+        }
+
+        function resetAll() {
+            state = { ushiko: '', p0: '', p1: '', p2: '', p3: '', p4: '', p5crack: '', p5move: '' };
+            updateUI();
+            changeSet('ushiko');
+        }
+    </script>
+</body>
+</html>
