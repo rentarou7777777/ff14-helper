@@ -161,11 +161,11 @@
 
             if(state.p0 && state.p2 && state.p5crack && state.p5move) {
                 if(state.p0 === '十字') {
-                    document.getElementById('p7-row1').innerText = "A,D頭割り";
-                    document.getElementById('p7-row3').innerText = "1,4頭割り";
+                    document.getElementById('p7-row1').innerText = "D頭割り";
+                    document.getElementById('p7-row3').innerText = "4頭割り";
                 } else {
-                    document.getElementById('p7-row1').innerText = "1,4頭割り";
-                    document.getElementById('p7-row3').innerText = "A,D頭割り";
+                    document.getElementById('p7-row1').innerText = "4頭割り";
+                    document.getElementById('p7-row3').innerText = "D頭割り";
                 }
                 let A_safe = (state.p2 === '上下扇') ? '左右安地' : '上下安地';
                 let C_safe = (state.p2 === '上下扇') ? '上下安地' : '左右安地';
