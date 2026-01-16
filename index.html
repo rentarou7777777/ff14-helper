@@ -16,6 +16,13 @@
         .nav-active { background: #000 !important; color: white !important; transform: translateY(4px); box-shadow: 0 2px 0 #000 !important; }
         .btn-text-large { font-size: 26px; }
         .header-info { padding: 12px; border-radius: 15px; border: 3px solid black; text-align: center; font-size: 18px; font-weight: 900; margin-bottom: 5px; }
+        
+        /* P4 專屬樣式：大字提醒拿線 */
+        #p4-line-hint { font-size: 28px !important; line-height: 1.2; padding: 15px; background: #fee2e2; border-color: #b91c1c; color: #b91c1c; }
+        
+        /* P6 專屬樣式：大字提醒跑位（過濾掉線條後） */
+        #res-p1-p5 { font-size: 24px !important; line-height: 1.3; padding: 10px; background: #fee2e2; border-color: #b91c1c; color: #b91c1c; text-align: center; }
+        
         .summary-box { background: white; padding: 15px; border-radius: 15px; border: 3px solid black; margin-bottom: 10px; }
         .p7-row { border: 3px solid black; border-radius: 10px; padding: 15px; margin-bottom: 12px; font-weight: 900; font-size: 26px; text-align: center; }
         .bg-blue { background: #e0f2fe; color: #0369a1; }
@@ -75,7 +82,7 @@
     </div>
 
     <div id="set3" class="section" style="display: none; flex-direction: column; gap: 15px; width: 100%; max-width: 380px;">
-        <div id="p1-res-p3" class="header-info" style="background: #fee2e2; border-color: #b91c1c; color: #b91c1c; text-align: left; font-size: 16px;"></div>
+        <div id="p4-line-hint" class="header-info"></div>
         <div class="summary-box" style="text-align: center;"><h2 style="margin: 0 0 10px 0; font-size: 28px; font-weight: 900;">A點機制</h2><div style="display: flex; gap: 15px;"><button class="pushable btn-text-large" data-action="p3" data-val="頭割り" style="flex:1; padding: 20px 0;">頭割り</button><button class="pushable btn-text-large" data-action="p3" data-val="円範圍" style="flex:1; padding: 20px 0;">円範圍</button></div></div>
     </div>
 
@@ -86,7 +93,7 @@
 
     <div id="set5" class="section" style="display: none; flex-direction: column; gap: 10px; width: 100%; max-width: 380px;">
         <div id="res-p3-p5" class="header-info" style="background: #e0f2fe; border-color: #0369a1; color: #0369a1; font-size: 22px;"></div>
-        <div id="res-p1-p5" class="header-info" style="background: #fee2e2; border-color: #b91c1c; color: #b91c1c; text-align: left; font-size: 14px;"></div>
+        <div id="res-p1-p5" class="header-info"></div>
         <div id="res-p4-p5" style="background: #000; color: #fff; padding: 15px; border-radius: 15px; border: 3px solid black; text-align: center; font-weight: 900; font-size: 18px;"></div>
         <div class="summary-box" style="text-align: center;"><p style="margin: 0 0 10px 0; font-weight: 900; font-size: 20px;">裂目</p><div style="display: flex; gap: 15px;"><button class="pushable btn-text-large" data-action="p5crack" data-val="上" style="flex: 1; padding: 15px 0;">上</button><button class="pushable btn-text-large" data-action="p5crack" data-val="下" style="flex: 1; padding: 15px 0;">下</button></div></div>
         <div class="summary-box" style="text-align: center;"><p style="margin: 0 0 10px 0; font-weight: 900; font-size: 20px;">上or下跑到</p><div style="display: flex; gap: 15px;"><button class="pushable btn-text-large" data-action="p5move" data-val="D" style="flex: 1; padding: 15px 0;">D</button><button class="pushable btn-text-large" data-action="p5move" data-val="B" style="flex: 1; padding: 15px 0;">B</button></div></div>
@@ -120,10 +127,14 @@
         };
 
         const p1Guides = {
-            '1': '1 or D の 頭割り 線を取る<br>Ｂ側で頭割り', 'A': 'A or 2 の 頭割り 線を取る<br>B側で頭割り',
-            '2': 'A or 2 の 円範圍 線を取る<br>1回目 A側 円範圍 捨て<br>B側で頭割り', 'B': 'B or 3 の 円範圍 線を取る<br>2回目 A側 円範圍 捨て<br>B側で頭割り',
-            '3': 'C or 4 の 円範圍 線を取る<br>1回目 C側 円範圍 捨て<br>D側で頭割り', 'C': 'D or 1 の 円範圍 線を取る<br>2回目 C側 円範圍 捨て<br>D側で頭割り',
-            '4': 'B or 3 の 頭割り 線を取る<br>D側で頭割り', 'D': 'C or 4 の 頭割り 線を取る<br>D側で頭割り'
+            '1': ['1 or D の 頭割り 線を取る', 'Ｂ側で頭割り'], 
+            'A': ['A or 2 の 頭割り 線を取る', 'B側で頭割り'],
+            '2': ['A or 2 の 円範圍 線を取る', '1回目 A側 円範圍 捨て<br>B側で頭割り'], 
+            'B': ['B or 3 の 円範圍 線を取る', '2回目 A側 円範圍 捨て<br>B側で頭割り'],
+            '3': ['C or 4 の 円範圍 線を取る', '1回目 C側 円範圍 捨て<br>D側で頭割り'], 
+            'C': ['D or 1 の 円範圍 線を取る', '2回目 C側 円範圍 捨て<br>D側で頭割り'],
+            '4': ['B or 3 の 頭割り 線を取る', 'D側で頭割り'], 
+            'D': ['C or 4 の 頭割り 線を取る', 'D側で頭割り']
         };
 
         const colorGuides = { 
@@ -150,13 +161,17 @@
                 btn.classList.toggle('selected-btn', state[action] === val);
             });
 
-            if(state.p1) document.getElementById('p1-res-p3').innerHTML = `<b>方位 ${state.p1}:</b><br>${p1Guides[state.p1]}`;
+            if(state.p1) {
+                // P4: 只顯示拿線 (第一行)
+                document.getElementById('p4-line-hint').innerHTML = `<b>方位 ${state.p1}:</b><br>${p1Guides[state.p1][0]}`;
+                // P6: 過濾掉拿線，只顯示後續 (第二行及之後)
+                document.getElementById('res-p1-p5').innerHTML = `<b>方位 ${state.p1}:</b><br>${p1Guides[state.p1][1]}`;
+            }
             if(state.p2) {
                 let h = (state.p2 === '上下扇') ? "1、2安地 之後分島站位" : "3、4安地 之後分島站位";
                 document.getElementById('p3-hint-p4').innerHTML = `<b>${h}</b>`;
             }
             if(state.p3) document.getElementById('res-p3-p5').innerHTML = (state.p3 === '頭割り' ? "先頭割り" : "先円範圍");
-            if(state.p1) document.getElementById('res-p1-p5').innerHTML = `<b>方位 ${state.p1}:</b><br>${p1Guides[state.p1]}`;
             if(state.p4) document.getElementById('res-p4-p5').innerHTML = `<span style="color: #60a5fa;">【${state.p4}】</span><br>${colorGuides[state.p4]}`;
 
             if(state.p0 && state.p2 && state.p5crack && state.p5move) {
@@ -178,10 +193,9 @@
             const gc = document.getElementById('guide-content');
             const gb = document.getElementById('guide-box');
             
-            // 處理導引框縮放邏輯
             if(currentTab === 'ushiko') {
                 gb.style.transform = "scale(0.9)";
-                gb.style.marginTop = "5px"; // 縮放後微調間距
+                gb.style.marginTop = "5px";
                 gc.style.textAlign = "left";
                 gc.innerHTML = state.ushiko ? `牛子式 ${state.ushiko}：<br>${ushikoGuides[state.ushiko]}` : "請選擇牛子式位置";
             } else {
@@ -190,7 +204,7 @@
                 gc.style.textAlign = "center";
                 switch(currentTab) {
                     case 0: gc.innerHTML = state.p0 ? `定位：${state.p0}` : "請選擇分身定位"; break;
-                    case 1: gc.innerHTML = state.p1 ? `方位 ${state.p1}：<br>${p1Guides[state.p1]}` : "請選擇方位"; gc.style.textAlign = "left"; break;
+                    case 1: gc.innerHTML = state.p1 ? `方位 ${state.p1}：<br>${p1Guides[state.p1][0]}<br>${p1Guides[state.p1][1]}` : "請選擇方位"; gc.style.textAlign = "left"; break;
                     case 2: gc.innerHTML = state.p2 ? `扇形方向：${state.p2}` : "請選擇扇形方向"; break;
                     case 3: gc.innerHTML = state.p3 ? `機制：${state.p3}` : "請選擇A點機制"; break;
                     case 4: gc.innerHTML = state.p4 ? `塔位：${state.p4}<br>${colorGuides[state.p4]}` : "請選擇最後塔色"; break;
@@ -230,7 +244,7 @@
                     navEl.classList.toggle('nav-active', isActive);
                     navEl.style.background = isActive ? "#000" : "#444";
                     if (id === 'nav0' || id === 'nav-ushiko') navEl.style.color = "white";
-                    else navEl.style.color = isActive ? "white" : "white";
+                    else navEl.style.color = "white";
                 }
             });
             document.getElementById('guide-box').style.display = (n === 6) ? 'none' : 'block';
