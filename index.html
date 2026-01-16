@@ -17,9 +17,7 @@
         .btn-text-large { font-size: 26px; }
         .header-info { padding: 12px; border-radius: 15px; border: 3px solid black; text-align: center; font-size: 18px; font-weight: 900; margin-bottom: 5px; }
         
-        /* P4 拿線大字樣式 */
         #p4-line-hint { font-size: 28px !important; line-height: 1.2; padding: 15px; background: #fee2e2; border-color: #b91c1c; color: #b91c1c; }
-        /* P6 跑位大字樣式 */
         #res-p1-p5 { font-size: 24px !important; line-height: 1.3; padding: 10px; background: #fee2e2; border-color: #b91c1c; color: #b91c1c; text-align: center; }
         
         .summary-box { background: white; padding: 15px; border-radius: 15px; border: 3px solid black; margin-bottom: 10px; }
@@ -44,7 +42,7 @@
 
     <div id="set3" class="section" style="display: none; flex-direction: column; gap: 15px; width: 100%; max-width: 380px;">
         <div id="p4-line-hint" class="header-info"></div>
-        <div class="summary-box" style="text-align: center;"><h2 style="margin: 0 0 10px 0; font-size: 28px; font-weight: 900;">A點機制</h2><div style="display: flex; gap: 15px;"><button class="pushable btn-text-large" data-action="p3" data-val="頭割り" style="flex:1; padding: 20px 0;">頭割り</button><button class="pushable btn-text-large" data-action="p3" data-val="円範圍" style="flex:1; padding: 20px 0;">円範圍</button></div></div>
+        <div class="summary-box" style="text-align: center;"><h2 style="margin: 0 0 10px 0; font-size: 28px; font-weight: 900;">AorC點機制</h2><div style="display: flex; gap: 15px;"><button class="pushable btn-text-large" data-action="p3" data-val="頭割り" style="flex:1; padding: 20px 0;">頭割り</button><button class="pushable btn-text-large" data-action="p3" data-val="円範圍" style="flex:1; padding: 20px 0;">円範圍</button></div></div>
     </div>
 
     <div id="set-ushiko" class="section" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 100%; max-width: 380px;">
@@ -119,7 +117,16 @@
             'D': ['C or 4 の 頭割り 線を取る', 'D側で頭割り']
         };
 
-        const ushikoGuides = { 'A': 'B(2)から半時計扇線<br>Bで外周みて左外側で扇誘導<br>北にずれて頭割り<br>半面避け<br>タゲサ外ちょい北でニアファー誘導<br>最初の形で扇誘導<br>ボス下で殴る', 'B': 'ボス線<br>Bにボス誘導<br>南にずれて頭割り<br>半面避け<br>タゲサとタゲサの間Bの内側で待機<br>2で頭割り<br>タゲサ外通って3で頭割り', 'C': 'Bから時計扇線<br>Bで外周みて右外側で扇誘導<br>南にずれて頭割り<br>半面避け<br>タゲサ外ちょい南でニアファー誘導<br>最初の形で扇誘導<br>ボス下で殴る', 'D': '無職<br>D端で円範圍誘導<br>ボス北で頭割り<br>半面避け<br>タゲサとタゲサの間Bの内側で待機<br>2で頭割り<br>タゲサ外通って3で頭割り', '1': 'B(2)から反時計円範圍線<br>Aちょい西で円範圍誘導<br>ボス北で頭割り<br>半面避け<br>タゲサとタゲサの間Bの内側で待機<br>2で頭割り<br>タゲサ外通って3で頭割り', '2': 'B(2)から反時計頭割り線<br>Bで外周みて左內側で扇誘導<br>北にずれて頭割り<br>半面避け<br>タゲサ內ちょい北でニアファー誘導<br>最初の形で扇誘導<br>ボス下で殴る', '3': 'Bから時計頭割り線<br>Bで外周みて右內側で扇誘導<br>南にずれて頭割り<br>半面避け<br>タゲサ內ちょい南でニアファー誘導<br>最初の形で扇誘導<br>ボス下で殴る', '4': 'Bから時計円範圍線<br>Cちょい西で円範圍誘導<br>ボス南で頭割り<br>半面避け<br>タゲサとタゲサの間Bの内側で待機<br>2で頭割り<br>タゲサ外通って3で頭割り' };
+        const ushikoGuides = { 
+            'A': 'B(2)から半時計扇線<br>Bで外周みて左外側で扇誘導<br>北にずれて頭割り<br>半面避け<br>タゲサ外ちょい北でニアファー誘導<br>最初の形で扇誘導<br>ボス下で殴る', 
+            'B': 'ボス線<br>Bにボス誘導<br>南にずれて頭割り<br>半面避け<br>タゲサとタゲサの間Bの内側で待機<br>2で頭割り<br>タゲサ外通って3で頭割り', 
+            'C': 'Bから時計扇線<br>Bで外周みて右外側で扇誘導<br>南にずれて頭割り<br>半面避け<br>タゲサ外ちょい南でニアファー誘導<br>最初の形で扇誘導<br>ボス下で殴る', 
+            'D': '無職<br>D端で円範圍誘導<br>ボス北で頭割り<br>半面避け<br>タゲサとタゲサの間Bの内側で待機<br>2で頭割り<br>タゲサ外通って3で頭割り', 
+            '1': 'B(2)から反時計円範圍線<br>Aちょい西で円範圍誘導<br>ボス北で頭割り<br>半面避け<br>タゲサとタゲサの間Bの内側で待機<br>2で頭割り<br>タゲサ外通って3で頭割り', 
+            '2': 'B(2)から反時計頭割り線<br>Bで外周みて左內側で扇誘導<br>北にずれて頭割り<br>半面避け<br>タゲサ內ちょい北でニアファー誘導<br>最初の形で扇誘導<br>ボス下で殴る', 
+            '3': 'Bから時計頭割り線<br>Bで外周みて右內側で扇誘導<br>南にずれて頭割り<br>半面避け<br>タゲサ內ちょい南でニアファー誘導<br>最初の形で扇誘導<br>ボス下で殴る', 
+            '4': 'Bから時計円範圍線<br>Cちょい西で円範圍誘導<br>ボス南で頭割り<br>半面避け<br>タゲサとタゲサの間Bの内側で待機<br>2で頭割り<br>タゲサ外通って3で頭割り' 
+        };
         const colorGuides = { '火': '不動後處理遠線<br><span style="color:#ff4d4d">4號位</span>', '綠': '站塔邊緣飛過去後<br>處理遠線<br><span style="color:#2ecc71">場地北邊王圈交界</span>', '黃': '閃地板後處理遠線<br><span style="color:#f1c40f">4號位</span>', '紫': '面外射線後處理近線<br><span style="color:#9b59b6">王圈上</span>' };
 
         document.querySelectorAll('.pushable[data-action]').forEach(btn => {
@@ -140,10 +147,7 @@
             });
 
             if(state.p1) {
-                // P4: 只顯示拿線內容，不顯示方位名稱
                 document.getElementById('p4-line-hint').innerHTML = `<b>${p1Guides[state.p1][0]}</b>`;
-                
-                // P6: 動態排序 (根據 P4 選項)
                 let guideParts = p1Guides[state.p1][1].split('<br>');
                 if(state.p3 === '円範圍') {
                     guideParts.sort((a, b) => b.includes('円範圍') - a.includes('円範圍'));
@@ -186,7 +190,7 @@
                     case 0: gc.innerHTML = state.p0 ? `定位：${state.p0}` : "請選擇分身定位"; break;
                     case 1: gc.innerHTML = state.p1 ? `方位 ${state.p1}：<br>${p1Guides[state.p1][0]}<br>${p1Guides[state.p1][1]}` : "請選擇方位"; gc.style.textAlign = "left"; break;
                     case 2: gc.innerHTML = state.p2 ? `扇形方向：${state.p2}` : "請選擇扇形方向"; break;
-                    case 3: gc.innerHTML = state.p3 ? `機制：${state.p3}` : "請選擇A點機制"; break;
+                    case 3: gc.innerHTML = state.p3 ? `機制：${state.p3}` : "請選擇AorC點機制"; break;
                     case 4: gc.innerHTML = state.p4 ? `塔位：${state.p4}<br>${colorGuides[state.p4]}` : "請選擇最後塔色"; break;
                     case 5: gc.innerHTML = `裂目：${state.p5crack || '未選'} / 跑到：${state.p5move || '未選'}`; break;
                     case 6: gc.innerHTML = "P7 機制順序已生成"; break;
