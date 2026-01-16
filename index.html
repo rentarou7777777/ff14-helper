@@ -165,7 +165,7 @@
                 // P4: 只顯示拿線 (第一行)
                 document.getElementById('p4-line-hint').innerHTML = `<b>方位 ${state.p1}:</b><br>${p1Guides[state.p1][0]}`;
                 // P6: 過濾掉拿線，只顯示後續 (第二行及之後)
-                document.getElementById('res-p1-p5').innerHTML = `<b>方位 ${state.p1}:</b><br>${p1Guides[state.p1][1]}`;
+                document.getElementById('res-p1-p5').innerHTML = `${p1Guides[state.p1][1]}`;
             }
             if(state.p2) {
                 let h = (state.p2 === '上下扇') ? "1、2安地 之後分島站位" : "3、4安地 之後分島站位";
