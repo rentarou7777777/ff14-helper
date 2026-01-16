@@ -17,7 +17,9 @@
         .btn-text-large { font-size: 26px; }
         .header-info { padding: 12px; border-radius: 15px; border: 3px solid black; text-align: center; font-size: 18px; font-weight: 900; margin-bottom: 5px; }
         
+        /* P4 拿線大字樣式 */
         #p4-line-hint { font-size: 28px !important; line-height: 1.2; padding: 15px; background: #fee2e2; border-color: #b91c1c; color: #b91c1c; }
+        /* P6 跑位大字樣式 */
         #res-p1-p5 { font-size: 24px !important; line-height: 1.3; padding: 10px; background: #fee2e2; border-color: #b91c1c; color: #b91c1c; text-align: center; }
         
         .summary-box { background: white; padding: 15px; border-radius: 15px; border: 3px solid black; margin-bottom: 10px; }
@@ -40,6 +42,11 @@
         <button id="reset-btn" class="pushable" onclick="resetAll()" style="flex: 1.2; padding: 8px 0; border-color: #ef4444; color: #ef4444; font-size: 10px; background: white;">RESET</button>
     </div>
 
+    <div id="set3" class="section" style="display: none; flex-direction: column; gap: 15px; width: 100%; max-width: 380px;">
+        <div id="p4-line-hint" class="header-info"></div>
+        <div class="summary-box" style="text-align: center;"><h2 style="margin: 0 0 10px 0; font-size: 28px; font-weight: 900;">A點機制</h2><div style="display: flex; gap: 15px;"><button class="pushable btn-text-large" data-action="p3" data-val="頭割り" style="flex:1; padding: 20px 0;">頭割り</button><button class="pushable btn-text-large" data-action="p3" data-val="円範圍" style="flex:1; padding: 20px 0;">円範圍</button></div></div>
+    </div>
+
     <div id="set-ushiko" class="section" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 100%; max-width: 380px;">
         <button class="pushable" data-action="ushiko" data-val="1" style="aspect-ratio: 1/1; color:#e11d48; font-size:40px;">1</button>
         <button class="pushable" data-action="ushiko" data-val="A" style="aspect-ratio: 1/1; color:#e11d48; font-size:40px;">A</button>
@@ -53,13 +60,7 @@
     </div>
 
     <div id="set0" class="section" style="display: none; flex-direction: column; gap: 15px; width: 100%; max-width: 380px;">
-        <div class="summary-box" style="text-align: center;">
-            <p style="margin-bottom: 15px; font-weight: 900; font-size: 20px;">玩家分身定位</p>
-            <div style="display: flex; gap: 15px;">
-                <button class="pushable btn-text-large" data-action="p0" data-val="十字" style="flex: 1; padding: 25px 0; color: black;">十字</button>
-                <button class="pushable btn-text-large" data-action="p0" data-val="X字" style="flex: 1; padding: 25px 0; color: black;">X字</button>
-            </div>
-        </div>
+        <div class="summary-box" style="text-align: center;"><p style="margin-bottom: 15px; font-weight: 900; font-size: 20px;">玩家分身定位</p><div style="display: flex; gap: 15px;"><button class="pushable btn-text-large" data-action="p0" data-val="十字" style="flex: 1; padding: 25px 0; color: black;">十字</button><button class="pushable btn-text-large" data-action="p0" data-val="X字" style="flex: 1; padding: 25px 0; color: black;">X字</button></div></div>
     </div>
 
     <div id="set1" class="section" style="display: none; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 100%; max-width: 380px;">
@@ -76,11 +77,6 @@
 
     <div id="set2" class="section" style="display: none; flex-direction: column; gap: 10px; width: 100%; max-width: 380px;">
         <div class="summary-box" style="text-align: center;"><p style="font-weight:900; font-size: 20px; margin-bottom: 20px;">A點扇形方向</p><div style="display: flex; gap: 15px;"><button class="pushable btn-text-large" data-action="p2" data-val="上下扇" style="flex:1; padding: 25px 0;">上下扇</button><button class="pushable btn-text-large" data-action="p2" data-val="左右扇" style="flex:1; padding: 25px 0;">左右扇</button></div></div>
-    </div>
-
-    <div id="set3" class="section" style="display: none; flex-direction: column; gap: 15px; width: 100%; max-width: 380px;">
-        <div id="p4-line-hint" class="header-info"></div>
-        <div class="summary-box" style="text-align: center;"><h2 style="margin: 0 0 10px 0; font-size: 28px; font-weight: 900;">A點機制</h2><div style="display: flex; gap: 15px;"><button class="pushable btn-text-large" data-action="p3" data-val="頭割り" style="flex:1; padding: 20px 0;">頭割り</button><button class="pushable btn-text-large" data-action="p3" data-val="円範圍" style="flex:1; padding: 20px 0;">円範圍</button></div></div>
     </div>
 
     <div id="set4" class="section" style="display: none; flex-direction: column; gap: 15px; width: 100%; max-width: 380px;">
@@ -112,17 +108,6 @@
         let currentTab = 'ushiko';
         const waitTime = 300;
 
-        const ushikoGuides = {
-            'A': 'B(2)から半時計扇線<br>Bで外周みて左外側で扇誘導<br>北にずれて頭割り<br>半面避け<br>タゲサ外ちょい北でニアファー誘導<br>最初の形で扇誘導<br>ボス下で殴る',
-            'B': 'ボス線<br>Bにボス誘導<br>南にずれて頭割り<br>半面避け<br>タゲサとタゲサの間Bの内側で待機<br>2で頭割り<br>タゲサ外通って3で頭割り',
-            'C': 'Bから時計扇線<br>Bで外周みて右外側で扇誘導<br>南にずれて頭割り<br>半面避け<br>タゲサ外ちょい南でニアファー誘導<br>最初の形で扇誘導<br>ボス下で殴る',
-            'D': '無職<br>D端で円範圍誘導<br>ボス北で頭割り<br>半面避け<br>タゲサとタゲサの間Bの内側で待機<br>2で頭割り<br>タゲサ外通って3で頭割り',
-            '1': 'B(2)から反時計円範圍線<br>Aちょい西で円範圍誘導<br>ボス北で頭割り<br>半面避け<br>タゲサとタゲサの間Bの内側で待機<br>2で頭割り<br>タゲサ外通って3で頭割り',
-            '2': 'B(2)から反時計頭割り線<br>Bで外周みて左內側で扇誘導<br>北にずれて頭割り<br>半面避け<br>タゲサ內ちょい北でニアファー誘導<br>最初の形で扇誘導<br>ボス下で殴る',
-            '3': 'Bから時計頭割り線<br>Bで外周みて右內側で扇誘導<br>南にずれて頭割り<br>半面避け<br>タゲサ內ちょい南でニアファー誘導<br>最初の形で扇誘導<br>ボス下で殴る',
-            '4': 'Bから時計円範圍線<br>Cちょい西で円範圍誘導<br>ボス南で頭割り<br>半面避け<br>タゲサとタゲサの間Bの内側で待機<br>2で頭割り<br>タゲサ外通って3で頭割り'
-        };
-
         const p1Guides = {
             '1': ['1 or D の 頭割り 線を取る', 'Ｂ側で頭割り'], 
             'A': ['A or 2 の 頭割り 線を取る', 'B側で頭割り'],
@@ -134,12 +119,8 @@
             'D': ['C or 4 の 頭割り 線を取る', 'D側で頭割り']
         };
 
-        const colorGuides = { 
-            '火': '不動後處理遠線<br><span style="color:#ff4d4d">4號位</span>', 
-            '綠': '站塔邊緣飛過去後<br>處理遠線<br><span style="color:#2ecc71">場地北邊王圈交界</span>', 
-            '黃': '閃地板後處理遠線<br><span style="color:#f1c40f">4號位</span>', 
-            '紫': '面外射線後處理近線<br><span style="color:#9b59b6">王圈上</span>' 
-        };
+        const ushikoGuides = { 'A': 'B(2)から半時計扇線<br>Bで外周みて左外側で扇誘導<br>北にずれて頭割り<br>半面避け<br>タゲサ外ちょい北でニアファー誘導<br>最初の形で扇誘導<br>ボス下で殴る', 'B': 'ボス線<br>Bにボス誘導<br>南にずれて頭割り<br>半面避け<br>タゲサとタゲサの間Bの内側で待機<br>2で頭割り<br>タゲサ外通って3で頭割り', 'C': 'Bから時計扇線<br>Bで外周みて右外側で扇誘導<br>南にずれて頭割り<br>半面避け<br>タゲサ外ちょい南でニアファー誘導<br>最初の形で扇誘導<br>ボス下で殴る', 'D': '無職<br>D端で円範圍誘導<br>ボス北で頭割り<br>半面避け<br>タゲサとタゲサの間Bの内側で待機<br>2で頭割り<br>タゲサ外通って3で頭割り', '1': 'B(2)から反時計円範圍線<br>Aちょい西で円範圍誘導<br>ボス北で頭割り<br>半面避け<br>タゲサとタゲサの間Bの内側で待機<br>2で頭割り<br>タゲサ外通って3で頭割り', '2': 'B(2)から反時計頭割り線<br>Bで外周みて左內側で扇誘導<br>北にずれて頭割り<br>半面避け<br>タゲサ內ちょい北でニアファー誘導<br>最初の形で扇誘導<br>ボス下で殴る', '3': 'Bから時計頭割り線<br>Bで外周みて右內側で扇誘導<br>南にずれて頭割り<br>半面避け<br>タゲサ內ちょい南でニアファー誘導<br>最初の形で扇誘導<br>ボス下で殴る', '4': 'Bから時計円範圍線<br>Cちょい西で円範圍誘導<br>ボス南で頭割り<br>半面避け<br>タゲサとタゲサの間Bの内側で待機<br>2で頭割り<br>タゲサ外通って3で頭割り' };
+        const colorGuides = { '火': '不動後處理遠線<br><span style="color:#ff4d4d">4號位</span>', '綠': '站塔邊緣飛過去後<br>處理遠線<br><span style="color:#2ecc71">場地北邊王圈交界</span>', '黃': '閃地板後處理遠線<br><span style="color:#f1c40f">4號位</span>', '紫': '面外射線後處理近線<br><span style="color:#9b59b6">王圈上</span>' };
 
         document.querySelectorAll('.pushable[data-action]').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -159,15 +140,14 @@
             });
 
             if(state.p1) {
-                document.getElementById('p4-line-hint').innerHTML = `<b>方位 ${state.p1}:</b><br>${p1Guides[state.p1][0]}`;
+                // P4: 只顯示拿線內容，不顯示方位名稱
+                document.getElementById('p4-line-hint').innerHTML = `<b>${p1Guides[state.p1][0]}</b>`;
                 
-                // P6 動態排序邏輯
+                // P6: 動態排序 (根據 P4 選項)
                 let guideParts = p1Guides[state.p1][1].split('<br>');
                 if(state.p3 === '円範圍') {
-                    // 如果P4選圓範圍，把含有「円範圍」的排在第一行
                     guideParts.sort((a, b) => b.includes('円範圍') - a.includes('円範圍'));
                 } else {
-                    // 如果P4選頭割，把含有「頭割り」的排在第一行
                     guideParts.sort((a, b) => b.includes('頭割り') - a.includes('頭割り'));
                 }
                 document.getElementById('res-p1-p5').innerHTML = guideParts.join('<br>');
@@ -197,16 +177,11 @@
 
             const gc = document.getElementById('guide-content');
             const gb = document.getElementById('guide-box');
-            
             if(currentTab === 'ushiko') {
-                gb.style.transform = "scale(0.9)";
-                gb.style.marginTop = "5px";
-                gc.style.textAlign = "left";
+                gb.style.transform = "scale(0.9)"; gb.style.marginTop = "5px"; gc.style.textAlign = "left";
                 gc.innerHTML = state.ushiko ? `牛子式 ${state.ushiko}：<br>${ushikoGuides[state.ushiko]}` : "請選擇牛子式位置";
             } else {
-                gb.style.transform = "scale(1)";
-                gb.style.marginTop = "15px";
-                gc.style.textAlign = "center";
+                gb.style.transform = "scale(1)"; gb.style.marginTop = "15px"; gc.style.textAlign = "center";
                 switch(currentTab) {
                     case 0: gc.innerHTML = state.p0 ? `定位：${state.p0}` : "請選擇分身定位"; break;
                     case 1: gc.innerHTML = state.p1 ? `方位 ${state.p1}：<br>${p1Guides[state.p1][0]}<br>${p1Guides[state.p1][1]}` : "請選擇方位"; gc.style.textAlign = "left"; break;
@@ -233,7 +208,6 @@
             currentTab = n;
             const sections = ['set-ushiko', 'set0', 'set1', 'set2', 'set3', 'set4', 'set5', 'set6'];
             const navs = ['nav-ushiko', 'nav0', 'nav1', 'nav2', 'nav3', 'nav4', 'nav5', 'nav6'];
-            
             sections.forEach((id, i) => {
                 const el = document.getElementById(id);
                 if(el) {
@@ -241,15 +215,12 @@
                     else el.style.display = (id === 'set'+n) ? (n===1?'grid':'flex') : 'none';
                 }
             });
-
             navs.forEach((id, i) => {
                 const navEl = document.getElementById(id);
                 if (navEl) {
                     const isActive = (n === 'ushiko' && id === 'nav-ushiko') || (n !== 'ushiko' && id === 'nav'+n);
                     navEl.classList.toggle('nav-active', isActive);
                     navEl.style.background = isActive ? "#000" : "#444";
-                    if (id === 'nav0' || id === 'nav-ushiko') navEl.style.color = "white";
-                    else navEl.style.color = "white";
                 }
             });
             document.getElementById('guide-box').style.display = (n === 6) ? 'none' : 'block';
@@ -258,8 +229,7 @@
 
         function resetAll() {
             state = { ushiko: '', p0: '', p1: '', p2: '', p3: '', p4: '', p5crack: '', p5move: '' };
-            updateUI();
-            changeSet('ushiko');
+            updateUI(); changeSet('ushiko');
         }
     </script>
 </body>
