@@ -75,6 +75,7 @@
 
     <div id="set2" class="section" style="display: none; flex-direction: column; gap: 10px; width: 100%; max-width: 380px;">
         <div class="summary-box" style="text-align: center;"><p style="font-weight:900; font-size: 20px; margin-bottom: 20px;">A點扇形方向</p><div style="display: flex; gap: 15px;"><button class="pushable btn-text-large" data-action="p2" data-val="上下扇" style="flex:1; padding: 25px 0;">上下扇</button><button class="pushable btn-text-large" data-action="p2" data-val="左右扇" style="flex:1; padding: 25px 0;">左右扇</button></div></div>
+        <div id="p3-p2-result" class="header-info" style="background: #fefce8; border-color: #ca8a04; color: #854d0e; font-size: 22px;">尚未選擇方位</div>
     </div>
 
     <div id="set4" class="section" style="display: none; flex-direction: column; gap: 15px; width: 100%; max-width: 380px;">
@@ -147,6 +148,9 @@
             });
 
             if(state.p1) {
+                // 更新 P3 的同步顯示框
+                document.getElementById('p3-p2-result').innerHTML = `方位：<b>${state.p1}</b><br>${p1Guides[state.p1][0]}`;
+                
                 document.getElementById('p4-line-hint').innerHTML = `<b>${p1Guides[state.p1][0]}</b>`;
                 let guideParts = p1Guides[state.p1][1].split('<br>');
                 if(state.p3 === '円範圍') {
@@ -233,6 +237,8 @@
 
         function resetAll() {
             state = { ushiko: '', p0: '', p1: '', p2: '', p3: '', p4: '', p5crack: '', p5move: '' };
+            // 同步重置顯示框文字
+            document.getElementById('p3-p2-result').innerText = "尚未選擇方位";
             updateUI(); changeSet('ushiko');
         }
     </script>
